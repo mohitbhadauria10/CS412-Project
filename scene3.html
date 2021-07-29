@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> US Confirmed and Death Cases </title>
+    <link rel="stylesheet" type="text/css" href="multiline.css">
+    <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+</head>
+<body bgcolor="#ffffff">
+    <center>
+        <p>
+            <font size="6" face="Arial Black">
+                COVID-19 Confirmed Cases By State
+            </font>
+        </p>
+    </center>
+
+    <div class="chart-wrapper" id="chart-line1">
+        <p>
+            <font size="4" face="Arial">
+                 This is an overview of COVID19 Confirmed cases of all states in US. The data is presented by Bar chart, so we can easily compare case number state by state. By comparing confrimed case of each state, we can tell which state is hitted hard by COVID19. The data is up to date by July 27, 2020. 
+            </font>
+        </p>
+    </div>
+    <center>
+      <p></p>
+      <a class="button1" href="scene1.html" style="margin-right: 200px">Previous</a>
+      <font size="5" face="Arial Black">
+          <a class="scene1" href="scene3.html">State Confirmed Cases Overview</a>
+          |
+          <a class="scene2" href="scene4.html">State Death Cases Overview</a>
+      </font>
+      <a class="button1" href="scene4.html" style="margin-left: 200px" >Next</a>
+  </center>
+<center>
+<!-- Add 7 buttons -->
+<button onclick="update('January')"> 2020-January </button>
+<button onclick="update('Feburary')"> Feburary </button>
+<button onclick="update('March')"> March </button>
+<button onclick="update('April')"> April </button>
+<button onclick="update('May')"> May </button>
+<button onclick="update('June')"> June </button>
+<button onclick="update('July')"> July </button>
+<button onclick="update('August')"> August </button>
+<button onclick="update('September')"> September </button>
+<button onclick="update('October')"> October </button>
+<button onclick="update('November')"> November </button>
+<button onclick="update('December')"> December </button>
+<button onclick="update('2021January')"> 2021-January </button>
+<button onclick="update('2021February')"> 2021-February </button>
+<button onclick="update('2021March')"> 2021-March </button>
+<button onclick="update('2021April')"> 2021-April </button>
+<button onclick="update('2021May')"> 2021-May </button>
+<button onclick="update('2021June')"> 2021-June </button>
+<button onclick="update('2021July')"> 2021-July </button>
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+</center>
+
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 40, right: 400, bottom: 140, left: 500},
+    width = 1800 - margin.left - margin.right,
+    height = 650 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// A function that create / update the plot for a given variable:
+function update(selectedVar) {
+
+d3.csv("data/State_Confirmed-1.csv", function(data) {
+
+svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "red")
+svg.append("text").attr("x", 70).attr("y", 0).text("Confirmed Cases").style("font-size", "17px").attr("alignment-baseline","middle")
+
+// X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(data.map(function(d) { return d.Code; }))
+  .padding(0.2);
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+
+//Y axis
+var y = d3.scaleLinear()
+  .domain([0, 4000000])
+  .range([ height, 0]);
+svg.append("g")
+  .call(d3.axisLeft(y));
+
+
+// set the parameters for the histogram
+//var histogram = d3.histogram()
+//      .value(function(d) { return d.Confirmed; })   // I need to give the vector of value
+//      .domain(x.domain())  // then the domain of the graphic
+//      .thresholds(x.ticks(70)); // then the numbers of bins
+
+// This allows to find the closest X index of the mouse:
+//var bisect = d3.bisector(function(d) { return d.state; }).right;
+// Create the circle that travels along the curve of chart
+  // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
+  // Its opacity is set to 0: we don't see it by default.
+var tooltip = d3.select("div")
+    .append("rect")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "red")
+    .style("color", "black")
+    .style("border-radius", "10px")
+    .style("padding", "10px")
+    .style("font","36px")
+  // A function that change this tooltip when the user hover a point.
+  // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
+var mouseover = function(d) {
+  tooltip
+      .transition()
+      .duration(100)
+      .style("opacity", 1)  
+  tooltip
+    .html(d.Code +"-Confirmed: " + d[selectedVar])
+      .style("left", (d3.mouse(this)[0]+200) + "px")
+      .style("top", (d3.mouse(this)[1]-20) + "px")
+      .duration(100)
+      .style("opacity", 1)
+
+  }
+var mousemove = function(d) {
+    tooltip
+      .html(d.Code +"-Confirmed: " + d[selectedVar])
+      .style("left", (d3.mouse(this)[0]+200) + "px")
+      .style("top", (d3.mouse(this)[1]-20) + "px")
+  }
+  // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+  var mouseout = function(d) {
+    tooltip
+      .transition()
+      .duration(100)
+      .style("opacity", 0)
+  }
+/*  var focus = svg
+  .append('g')
+  .append('circle')
+  .style("fill", "none")
+  .attr("stroke", "black")
+  .attr('r', 8.5)
+  .style("opacity", 0)
+ 
+// Create the text that travels along the curve of chart
+var focusText = svg
+  .append('g')
+  .append('text')
+    .style("opacity", 0)
+    .attr("text-anchor", "left")
+    .attr("alignment-baseline", "middle") */
+ 
+//var focusText2 = svg
+//  .append('g')
+//  .append('text')
+//    .style("opacity", 0)
+//    .attr("text-anchor", "left")
+//    .attr("alignment-baseline", "middle")
+
+// Add the line
+// Bars
+var u = svg.selectAll("rect")
+      .data(data)
+u
+  .enter()
+  .append("rect")
+  .merge(u)
+  //.transition()
+  //.duration(1000)
+    .attr("x", function(d) { return x(d.Code); })
+    .attr("y", function(d) { return y(d[selectedVar]); })
+    .attr("width", x.bandwidth())
+    .attr("height", function(d) { return height - y(d[selectedVar]); })
+    .attr("fill", "red")
+    .on('mouseover', mouseover)
+  .on('mousemove', mousemove)
+  .on('mouseout', mouseout);
+/*     // Show tooltip on hover
+
+// Create a rect on top of the svg area: this rectangle recovers mouse position
+svg
+  .append('rect')
+  .style("fill", "none")
+  .style("pointer-events", "all")
+  .attr('width', width)
+ .attr('height', height)
+  .on('mouseover', mouseover)
+  .on('mousemove', mousemove)
+  .on('mouseout', mouseout);
+// What happens when the mouse move -> show the annotations at the right positions.
+ function mouseover() {
+  focus.style("opacity", 1)
+  focusText.style("opacity",1)
+}
+
+function mousemove() {
+  // recover coordinate we need
+  var x0 = x.invert(d3.mouse(this)[0]);
+  var i = bisect(data, x0, 1);
+  selectedData = data[i]
+focus
+    .attr("cx", x(200))
+    .attr("cy", y(selectedData.value))
+//const Time=selectedData.date.timeParse("%Y-%m-%d");
+focusText
+    .html(selectedData.state)
+    .attr("x", x(selectedData.state))
+    .attr("y", y(selectedData.value)-40)
+}
+function mouseout() {
+  focus.style("opacity", 0)
+  focusText.style("opacity", 0)
+} */
+
+})
+}
+// Initialize plot
+update('July')
+
+</script>
+
+
+
+</body>
+</html>
