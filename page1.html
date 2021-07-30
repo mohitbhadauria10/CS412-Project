@@ -31,13 +31,13 @@
         </p>
     </div>
   <center>
-    <a class="button1" href="scene5.html" style="margin-right: 200px">Main</a>
+    <a class="button1" href="page1.html" style="margin-right: 200px">Main</a>
     <font size="5" face="Arial Black">
-     <a class="scene1" href="scene5.html">World Confirmed Cases Map view</a>
+     <a class="scene1" href="page1.html">World Confirmed Cases Map view</a>
     |
-      <a class="scene2" href="scene6.html">World Death Cases Map view</a>
+      <a class="scene2" href="page2.html">World Death Cases Map view</a>
      </font>
-    <a class="button1" href="scene6.html" style="margin-left: 200px" >Next</a>
+    <a class="button1" href="page2.html" style="margin-left: 200px" >Next</a>
   </center>
 <!-- Create an element where the map will take place -->
 <svg id="my_dataviz" width="1800" height="700"></svg>
@@ -60,7 +60,7 @@
   var data = d3.map();
   var colorScale = d3.scaleThreshold()
     .domain([1000, 10000, 100000, 300000, 1000000, 5000000])
-    .range(d3.schemeReds[7]);
+    .range(d3.schemeBlues[7]);
   var tooltip = d3.select("div")
     .append("rect")
     .style("opacity", 0)
@@ -87,7 +87,7 @@
         .transition()
         .duration(200)
         .style("opacity", 1)
-        .style("stroke", "black")
+        .style("stroke", "red")
       tooltip
         .transition()
         .duration(100)

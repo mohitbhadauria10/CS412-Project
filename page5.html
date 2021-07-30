@@ -10,7 +10,7 @@
     <center>
         <p>
             <font size="6" face="Arial Black">
-                COVID-19 Confirmed Cases By State
+                COVID-19 Death Cases By State
             </font>
         </p>
     </center>
@@ -18,19 +18,19 @@
     <div class="chart-wrapper" id="chart-line1">
         <p>
             <font size="4" face="Arial">
-                 This is an overview of COVID19 Confirmed cases of all states in US. The data is presented by Bar chart, so we can easily compare case number state by state. By comparing confrimed case of each state, we can tell which state is hitted hard by COVID19. The data is up to date by July 27, 2020. 
+                 This is an overview of COVID19 Death cases of all states in US. The data is presented by Bar chart, so we can easily compare case number state by state. By comparing death case of each state, we can tell which state is hitted hard by COVID19. The data is up to date by July 27, 2020. 
             </font>
         </p>
     </div>
     <center>
       <p></p>
-      <a class="button1" href="scene1.html" style="margin-right: 200px">Previous</a>
+      <a class="button1" href="page4.html" style="margin-right: 200px">Previous</a>
       <font size="5" face="Arial Black">
-          <a class="scene1" href="scene3.html">State Confirmed Cases Overview</a>
+          <a class="scene2" href="page4.html">State Confirmed Cases Overview</a>
           |
-          <a class="scene2" href="scene4.html">State Death Cases Overview</a>
+          <a class="scene1" href="page5.html">State Death Cases Overview</a>
       </font>
-      <a class="button1" href="scene4.html" style="margin-left: 200px" >Next</a>
+      <a class="button1" href="index.html" style="margin-left: 200px" >Start Over</a>
   </center>
 <center>
 <!-- Add 7 buttons -->
@@ -76,10 +76,10 @@ var svg = d3.select("#my_dataviz")
 // A function that create / update the plot for a given variable:
 function update(selectedVar) {
 
-d3.csv("data/State_Confirmed-1.csv", function(data) {
+d3.csv("data/State_Death-1.csv", function(data) {
 
-svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "red")
-svg.append("text").attr("x", 70).attr("y", 0).text("Confirmed Cases").style("font-size", "17px").attr("alignment-baseline","middle")
+svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "black")
+svg.append("text").attr("x", 70).attr("y", 0).text("Death Cases").style("font-size", "17px").attr("alignment-baseline","middle")
 
 // X axis
 var x = d3.scaleBand()
@@ -92,7 +92,7 @@ svg.append("g")
 
 //Y axis
 var y = d3.scaleLinear()
-  .domain([0, 4000000])
+  .domain([0, 100000])
   .range([ height, 0]);
 svg.append("g")
   .call(d3.axisLeft(y));
@@ -113,8 +113,8 @@ var tooltip = d3.select("div")
     .append("rect")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", "red")
-    .style("color", "black")
+    .style("background-color", "black")
+    .style("color", "white")
     .style("border-radius", "10px")
     .style("padding", "10px")
     .style("font","36px")
@@ -126,7 +126,7 @@ var mouseover = function(d) {
       .duration(100)
       .style("opacity", 1)  
   tooltip
-    .html(d.Code +"-Confirmed: " + d[selectedVar])
+    .html(d.Code +"-Death: " + d[selectedVar])
       .style("left", (d3.mouse(this)[0]+200) + "px")
       .style("top", (d3.mouse(this)[1]-20) + "px")
       .duration(100)
@@ -135,7 +135,7 @@ var mouseover = function(d) {
   }
 var mousemove = function(d) {
     tooltip
-      .html(d.Code +"-Confirmed: " + d[selectedVar])
+      .html(d.Code +"-Death: " + d[selectedVar])
       .style("left", (d3.mouse(this)[0]+200) + "px")
       .style("top", (d3.mouse(this)[1]-20) + "px")
   }
@@ -183,7 +183,7 @@ u
     .attr("y", function(d) { return y(d[selectedVar]); })
     .attr("width", x.bandwidth())
     .attr("height", function(d) { return height - y(d[selectedVar]); })
-    .attr("fill", "red")
+    .attr("fill", "black")
     .on('mouseover', mouseover)
   .on('mousemove', mousemove)
   .on('mouseout', mouseout);

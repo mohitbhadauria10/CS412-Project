@@ -1,6 +1,6 @@
 a.button1:link, a.button1:visited {
-  background-color: #ff4d4d;
-  color: black;
+  background-color: #0077b5;
+  color: white;
   padding: 10px 30px;
   text-align: center;
   text-decoration: none;
@@ -10,7 +10,7 @@ a.button1:link, a.button1:visited {
 }
 
 a.button1:hover, a.button1:active {
-  background-color: red;
+  background-color: #dd5143;
 }
 
 a.scene1:link, a.scene1:visited {
