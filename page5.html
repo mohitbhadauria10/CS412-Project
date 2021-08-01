@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> US Confirmed and Death Cases </title>
+    <title> US Cumulative Confirmed and Death Cases Statewise </title>
     <link rel="stylesheet" type="text/css" href="multiline.css">
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
 </head>
@@ -10,7 +10,7 @@
     <center>
         <p>
             <font size="6" face="Arial Black">
-                Statewise COVID-19 Deaths
+                Statewise cumulative monthly COVID-19 Deaths
             </font>
         </p>
     </center>
@@ -60,7 +60,7 @@
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 40, right: 100, bottom: 90, left: 100},
+var margin = {top: 10, right: 100, bottom: 90, left: 100},
     width = 1800 - margin.left - margin.right,
     height = 650 - margin.top - margin.bottom;
 
@@ -78,8 +78,8 @@ function update(selectedVar) {
 
 d3.csv("data/State_Death-1.csv", function(data) {
 
-svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "black")
-svg.append("text").attr("x", 70).attr("y", 0).text("Death Cases").style("font-size", "17px").attr("alignment-baseline","middle")
+svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "#dd5143")
+svg.append("text").attr("x", 70).attr("y", 0).text("Death Cases each Statewise").style("font-size", "17px").attr("alignment-baseline","middle")
 
 // X axis
 var x = d3.scaleBand()
@@ -92,7 +92,7 @@ svg.append("g")
 
 //Y axis
 var y = d3.scaleLinear()
-  .domain([0, 100000])
+  .domain([0, 70000])
   .range([ height, 0]);
 svg.append("g")
   .call(d3.axisLeft(y));
@@ -115,7 +115,7 @@ var mouseover = function(d) {
       .duration(100)
       .style("opacity", 1)
   tooltip
-    .html(d.Code +"-Death: " + d[selectedVar])
+    .html(d.Code +"-Death Cases: " + d[selectedVar])
       .style("left", (d3.mouse(this)[0]+200) + "px")
       .style("top", (d3.mouse(this)[1]-20) + "px")
       .duration(100)
@@ -124,7 +124,7 @@ var mouseover = function(d) {
   }
 var mousemove = function(d) {
     tooltip
-      .html(d.Code +"-Death: " + d[selectedVar])
+      .html(d.Code +"-Death Cases: " + d[selectedVar])
       .style("left", (d3.mouse(this)[0]+200) + "px")
       .style("top", (d3.mouse(this)[1]-20) + "px")
   }

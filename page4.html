@@ -10,7 +10,7 @@
     <center>
         <p>
             <font size="6" face="Arial Black">
-                Statewise COVID-19 Confirmed Cases
+                Statewise cumulative monthly COVID-19 Confirmed Cases
             </font>
         </p>
     </center>
@@ -60,7 +60,7 @@
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 40, right: 100, bottom: 90, left: 100},
+var margin = {top: 10, right: 100, bottom: 90, left: 100},
     width = 1800 - margin.left - margin.right,
     height = 650 - margin.top - margin.bottom;
 
@@ -78,8 +78,8 @@ function update(selectedVar) {
 
 d3.csv("data/State_Confirmed-1.csv", function(data) {
 
-svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "red")
-svg.append("text").attr("x", 70).attr("y", 0).text("Confirmed Cases").style("font-size", "17px").attr("alignment-baseline","middle")
+svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "#00a0dc")
+svg.append("text").attr("x", 70).attr("y", 0).text("Confirmed Cases Statewise").style("font-size", "17px").attr("alignment-baseline","middle")
 
 // X axis
 var x = d3.scaleBand()
@@ -150,7 +150,7 @@ u
     .attr("y", function(d) { return y(d[selectedVar]); })
     .attr("width", x.bandwidth())
     .attr("height", function(d) { return height - y(d[selectedVar]); })
-    .attr("fill", "#dd5143")
+    .attr("fill", "#00a0dc")
     .on('mouseover', mouseover)
   .on('mousemove', mousemove)
   .on('mouseout', mouseout);
