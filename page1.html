@@ -18,7 +18,7 @@
     <center>
         <p>
             <font size="6" face="Arial Black">
-                World Map of COVID-19 Confirmed Cases 
+                Worldwide COVID-19 Confirmed Cases
             </font>
         </p>
     </center>
@@ -40,7 +40,7 @@
     <a class="button1" href="page2.html" style="margin-left: 200px" >Next</a>
   </center>
 <!-- Create an element where the map will take place -->
-<svg id="my_dataviz" width="1800" height="700"></svg>
+<svg id="worldMap" width="1200" height="520"></svg>
 
 <script>
 
@@ -65,8 +65,8 @@
     .append("rect")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", "red")
-    .style("color", "black")
+    .style("background-color", "#00a0dc")
+    .style("color", "white")
     .style("border-radius", "10px")
     .style("padding", "10px")
     .style("font","36px")
@@ -87,7 +87,7 @@
         .transition()
         .duration(200)
         .style("opacity", 1)
-        .style("stroke", "red")
+        .style("stroke", "Black")
       tooltip
         .transition()
         .duration(100)

@@ -11,7 +11,7 @@
     <center>
         <p>
             <font size="6" face="Arial Black">
-                US COVID-19 Confirmed and Death Cases By Time
+                Confirmed and Death Cases Trend in United States 
             </font>
         </p>
     </center>
@@ -27,7 +27,7 @@
       <p></p>
       <a class="button1" href="page2.html" style="margin-right: 200px">Previous</a>
       <font size="5" face="Arial Black">
-          <a class="scene1" href="page3.html">Confirmed/Death Cases Numbers</a>
+          <a class="scene1" href="page3.html">Confirmed/Death Cases Numbers and Trend</a>
           
           <a class="scene2" href="scene2.html"></a>
       </font>
@@ -61,8 +61,8 @@ function(data) {
 
 svg.append("circle").attr("cx",50).attr("cy",50).attr("r", 6).style("fill", "#00a0dc")
 svg.append("circle").attr("cx",50).attr("cy",80).attr("r", 6).style("fill", "#dd5143")
-svg.append("text").attr("x", 70).attr("y", 50).text("Total Confirmed Cases in US").style("font-size", "19px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 70).attr("y", 80).text("Total Death Cases in US").style("font-size", "19px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 70).attr("y", 50).text("Trend Confirmed Cases in US").style("font-size", "19px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 70).attr("y", 80).text("Trend Death Cases in US").style("font-size", "19px").attr("alignment-baseline","middle")
 
 // Add X axis --> it is a date format
 var x = d3.scaleTime()
@@ -85,34 +85,32 @@ var bisect = d3.bisector(function(d) { return d.date; }).left;
 var focus = svg
   .append('g')
   .append('circle')
-  .style("fill", "none")
-  .attr("stroke", "black")
-  .attr('r', 8.5)
+  .style("fill", "#00a0dc")
+  .attr('r', 9.0)
   .style("opacity", 0)
 var focus2 = svg
   .append('g')
   .append('circle')
-  .style("fill", "none")
-  .attr("stroke", "black")
-  .attr('r', 8.5)
+  .style("fill", "#dd5143")
+  .attr('r', 9.0)
   .style("opacity", 0)    
 // Create the text that travels along the curve of chart
 var focusText = svg
   .append('g')
   .append('text')
-    .style("opacity", 0)
+    .style("fill", "black")
     .attr("text-anchor", "left")
     .attr("alignment-baseline", "middle")
 var focusText2 = svg
   .append('g')
   .append('text')
-    .style("opacity", 0)
+    .style("fill", "#00a0dc")
     .attr("text-anchor", "left")
     .attr("alignment-baseline", "middle")
 var focusText3 = svg
   .append('g')
   .append('text')
-    .style("opacity", 0)
+    .style("fill", "#dd5143")
     .attr("text-anchor", "left")
     .attr("alignment-baseline", "middle")
 
@@ -121,8 +119,8 @@ svg.append("path")
   .datum(data)
   .attr("id","line1")
   .attr("fill", "none")
-  .attr("stroke", "red")
-  .attr("stroke-width", 4.5)
+  .attr("stroke", "#00a0dc")
+  .attr("stroke-width", 5.0)
   .attr("d", d3.line()
     .x(function(d) { return x(d.date) })
     .y(function(d) { return y(d.value) })
@@ -131,8 +129,8 @@ svg.append("path")
   .datum(data)
   .attr("id","line2")
   .attr("fill", "none")
-  .attr("stroke", "black")
-  .attr("stroke-width", 4.5)
+  .attr("stroke", "#dd5143")
+  .attr("stroke-width", 5.0)
   .attr("d", d3.line()
     .x(function(d) { return x(d.date) })
     .y(function(d) { return y(d.value2) })
@@ -151,8 +149,8 @@ svg
 
 // What happens when the mouse move -> show the annotations at the right positions.
 function mouseover() {
-  focus.style("opacity", 1)
   focusText.style("opacity",1)
+  focus.style("opacity", 1)
   focusText2.style("opacity",1)
   focusText3.style("opacity",1)
   focus2.style("opacity", 1)
@@ -169,19 +167,18 @@ function mousemove() {
   focus2
     .attr("cx", x(selectedData.date))
     .attr("cy", y(selectedData.value2))
-//const Time=selectedData.date.timeParse("%Y-%m-%d");
 focusText
-    .html(selectedData.date)
+    .html("Reporting Date: "+selectedData.date)
     .attr("x", x(selectedData.date))
     .attr("y", y(selectedData.value)-60)
 
 focusText2
-    .html("Confirmed:" + selectedData.value)
+    .html("Total Confirmed Cases: " + selectedData.value)
     .attr("x", x(selectedData.date))
     .attr("y", y(selectedData.value)-40)
 
 focusText3
-    .html("Death:" + selectedData.value2)
+    .html("Total Death Cases: " + selectedData.value2)
     .attr("x", x(selectedData.date))
     .attr("y", y(selectedData.value)-20)
 }
@@ -190,9 +187,7 @@ function mouseout() {
   focus.style("opacity", 0)
   focusText.style("opacity", 0)
 }
-//Manual make annotations
-//svg.append("circle").attr("cx",650).attr("cy",190).attr("r", 40).attr("fill","green") 
-//svg.append("circle").attr("cx",650).attr("cy",190).attr("r", 36).attr("fill","white") 
+
 
 svg.append("svg:defs").append("svg:marker")
     .attr("id", "triangle")
@@ -203,35 +198,51 @@ svg.append("svg:defs").append("svg:marker")
     .attr("orient", "auto")
     .append("path")
     .attr("d", "M 0 0 12 6 0 12 3 6")
-    .style("fill", "#4E2C7F");
+    .style("fill", "#8600b3");
 svg.append("line")
-  .attr("x1", 750)
-  .attr("y1", 260)
-  .attr("x2", 670)
-  .attr("y2", 230)          
+  .attr("x1", 350)
+  .attr("y1", 215)
+  .attr("x2", 370)
+  .attr("y2", 350)          
   .attr("stroke-width", 3)
-  .attr("stroke", "#4E2C7F")
+  .attr("stroke", "#8600b3")
   .attr("marker-end", "url(#triangle)");
 svg.append("text")
-    .attr("x", 760).attr("y", 270)
-    .text("Significantly increased")
+    .attr("x", 20).attr("y", 210)
+    .text("Covid Second Wave (November 2020) Cases Significantly increased")
     .style("font-size", "19px")
     .attr("alignment-baseline","left")
-    .attr("stroke", "#4E2C7F");
+    .attr("fill", "#8600b3");
+    
 svg.append("line")
   .attr("x1", 200)
-  .attr("y1", 300)
-  .attr("x2", 270)
-  .attr("y2", 440)          
+  .attr("y1", 295)
+  .attr("x2", 220)
+  .attr("y2", 420)          
   .attr("stroke-width", 3)
-  .attr("stroke", "#4E2C7F")
+  .attr("stroke", "#8600b3")
   .attr("marker-end", "url(#triangle)");
 svg.append("text")
-    .attr("x", 50).attr("y", 290)
-    .text("Significantly increased")
+    .attr("x", 20).attr("y", 290)
+    .text("Covid First Wave (June 2020) Cases Significantly increased")
     .style("font-size", "19px")
     .attr("alignment-baseline","left")
-    .attr("stroke", "#4E2C7F");
+    .attr("fill", "#8600b3");
+    
+svg.append("line")
+  .attr("x1", 500)
+  .attr("y1", 50)
+  .attr("x2", 550)
+  .attr("y2", 80)          
+  .attr("stroke-width", 3)
+  .attr("stroke", "#8600b3")
+  .attr("marker-end", "url(#triangle)");
+svg.append("text")
+    .attr("x", 400).attr("y", 45)
+    .text("Vaccination Kicked in (February 2021) Cases Decreased")
+    .style("font-size", "19px")
+    .attr("alignment-baseline","left")
+    .attr("fill", "#00b33c");
 })
 
 </script>

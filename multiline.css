@@ -14,7 +14,7 @@ a.button1:hover, a.button1:active {
 }
 
 a.scene1:link, a.scene1:visited {
-  color: black;
+  color: #00a0dc;
   text-decoration: None;
 }
 
@@ -28,6 +28,15 @@ a.scene2:link, a.scene2:visited {
 }
 
 a.scene2:hover, a.scene2:active {
+  text-decoration:underline;
+}
+
+a.scene3:link, a.scene3:visited {
+  color: #dd5143;
+  text-decoration: None;
+}
+
+a.scene3:hover, a.scene3:active {
   text-decoration:underline;
 }
 
