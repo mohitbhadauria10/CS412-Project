@@ -19,7 +19,9 @@
     <div class="chart-wrapper" id="chart-line1">
         <p>
             <font size="4" face="Arial">
-                 There are total 4290259 COVID19 cases confirmed in US, and 148011 death cases due to COVID19. Confirmed cases chart shows the accumulated confirmed cases starting from 1/22/2020 to 7/27/2020. Death Cases chart shows the total death case in US from 1/22/2020 to 7/27/2020. 
+                 This below chart shows the trend of COVID-19 confirmed cases and also death cases in United States from Jan 2020 to July 2021.
+                 Confirmed cases trend are shown in blue while number of death cases trend versus reporting date is shown in red color. <br> User can scroll over any trend (confirmed or death) and see cumulative number of confirmed or death cases in a selected date.</br>
+                 This chart also specify the major dates when infections were peaked in terms of COVID first wave and second wave and also when infections started declining because of vaccine roll out.
             </font>
         </p>
     </div>
@@ -38,7 +40,7 @@
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 90, right: 400, bottom: 90, left: 400},
+var margin = {top: 10, right: 400, bottom: 90, left: 400},
     width = 1600 - margin.left - margin.right,
     height = 650 - margin.top - margin.bottom;
 
@@ -200,8 +202,8 @@ svg.append("svg:defs").append("svg:marker")
 svg.append("line")
   .attr("x1", 350)
   .attr("y1", 215)
-  .attr("x2", 370)
-  .attr("y2", 355)          
+  .attr("x2", 410)
+  .attr("y2", 390)          
   .attr("stroke-width", 2)
   .attr("stroke", "#8600b3")
   .attr("marker-end", "url(#triangle)");
@@ -216,7 +218,7 @@ svg.append("line")
   .attr("x1", 200)
   .attr("y1", 295)
   .attr("x2", 220)
-  .attr("y2", 425)          
+  .attr("y2", 500)          
   .attr("stroke-width", 2)
   .attr("stroke", "#8600b3")
   .attr("marker-end", "url(#triangle)");
@@ -231,7 +233,7 @@ svg.append("line")
   .attr("x1", 500)
   .attr("y1", 50)
   .attr("x2", 550)
-  .attr("y2", 90)          
+  .attr("y2", 105)          
   .attr("stroke-width", 2)
   .attr("stroke", "#8600b3")
   .attr("marker-end", "url(#triangle)");
