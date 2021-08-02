@@ -73,7 +73,7 @@
     .style("border-radius", "10px")
     .style("padding", "10px")
     .style("font","36px")
-  // Read data from file and world map
+  // Read data from file and world
   d3.queue()
     .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
     .defer(d3.csv, "data/world_covid19-1.csv", function(d) { data.set(d.code, +d.Confirmed); })

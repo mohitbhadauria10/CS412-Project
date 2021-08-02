@@ -110,6 +110,10 @@ a.scene3:hover, a.scene3:active {
     font-family: sans-serif;
     font-weight: 600;
 }
+.chart-wrapper .overlay {
+  fill: none;
+  pointer-events: all;
+}
 .chart-wrapper .legend .series-marker {
     height: 1em;
     width: 1em;
@@ -120,10 +124,7 @@ a.scene3:hover, a.scene3:active {
     margin-bottom: -0.16rem;
 }
 
-.chart-wrapper .overlay {
-  fill: none;
-  pointer-events: all;
-}
+
 
 .chart-wrapper .focus circle {
   fill: crimson;
