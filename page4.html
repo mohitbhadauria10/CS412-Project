@@ -66,7 +66,7 @@ var margin = {top: 10, right: 100, bottom: 90, left: 100},
     width = 1800 - margin.left - margin.right,
     height = 650 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
+// appending the SVG object
 var svg = d3.select("#div_id")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -75,7 +75,7 @@ var svg = d3.select("#div_id")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-// A function that create / update the plot for a given variable:
+
 function update(selectedVar) {
 
 d3.csv("data/State_Confirmed-1.csv", function(data) {
@@ -83,7 +83,7 @@ d3.csv("data/State_Confirmed-1.csv", function(data) {
 svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "#00a0dc")
 svg.append("text").attr("x", 70).attr("y", 0).text("Confirmed Cases Statewise").style("font-size", "17px").attr("alignment-baseline","middle")
 
-// X axis
+// Adding X axis as States of USA
 var x = d3.scaleBand()
   .range([ 0, width ])
   .domain(data.map(function(d) { return d.Code; }))
@@ -92,7 +92,7 @@ svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x))
 
-//Y axis
+//Adding Y axis as No of COVID Infections
 var y = d3.scaleLinear()
   .domain([0, 4000000])
   .range([ height, 0]);
@@ -147,8 +147,6 @@ u
   .enter()
   .append("rect")
   .merge(u)
-  //.transition()
-  //.duration(1000)
     .attr("x", function(d) { return x(d.Code); })
     .attr("y", function(d) { return y(d[selectedVar]); })
     .attr("width", x.bandwidth())
