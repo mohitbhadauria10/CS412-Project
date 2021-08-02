@@ -33,18 +33,18 @@
       </font>
       <a class="button1" href="page4.html" style="margin-left: 200px" >Next</a>
   </center>
-<!-- Create a div where the graph will take place -->
+
 <div id="my_dataviz"></div>
 
 
 <script>
 
-// set the dimensions and margins of the graph
+// Defining dimensions of SVG element to draw map
 var margin = {top: 10, right: 400, bottom: 90, left: 400},
     width = 1600 - margin.left - margin.right,
     height = 650 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
+// appending the SVG object
 var svg = d3.select("#my_dataviz")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -64,7 +64,7 @@ svg.append("circle").attr("cx",50).attr("cy",80).attr("r", 6).style("fill", "#dd
 svg.append("text").attr("x", 70).attr("y", 50).text("Trend Confirmed Cases in US").style("font-size", "19px").attr("alignment-baseline","middle")
 svg.append("text").attr("x", 70).attr("y", 80).text("Trend Death Cases in US").style("font-size", "19px").attr("alignment-baseline","middle")
 
-// Add X axis --> it is a date format
+// Adding X Axis as date format
 var x = d3.scaleTime()
   .domain(d3.extent(data, function(d) { return d.date; }))
   .range([ 0, width ]);
@@ -72,14 +72,14 @@ svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x));
 
-// Add Y axis
+// Adding Y axis as number of infections
 var y = d3.scaleLinear()
   .domain([0, d3.max(data, function(d) { return +d.value; })])
   .range([height,0]);
 svg.append("g")
   .call(d3.axisLeft(y));
 
-// This allows to find the closest X index of the mouse:
+// Function to find the closest X index of the mouse:
 var bisect = d3.bisector(function(d) { return d.date; }).left;
 // Create the circle that travels along the curve of chart
 var focus = svg
@@ -94,7 +94,7 @@ var focus2 = svg
   .style("fill", "#dd5143")
   .attr('r', 9.0)
   .style("opacity", 0)    
-// Create the text that travels along the curve of chart
+
 var focusText = svg
   .append('g')
   .append('text')
@@ -114,7 +114,7 @@ var focusText3 = svg
     .attr("text-anchor", "left")
     .attr("alignment-baseline", "middle")
 
-// Add the line
+// Defining the line
 svg.append("path")
   .datum(data)
   .attr("id","line1")
@@ -136,7 +136,7 @@ svg.append("path")
     .y(function(d) { return y(d.value2) })
     )
 
-// Create a rect on top of the svg area: this rectangle recovers mouse position
+// Defiing a Rectangle Element
 svg
   .append('rect')
   .style("fill", "none")
@@ -147,7 +147,7 @@ svg
   .on('mousemove', mousemove)
   .on('mouseout', mouseout);
 
-// What happens when the mouse move -> show the annotations at the right positions.
+// Defiing a Mouseover Element
 function mouseover() {
   focusText.style("opacity",1)
   focus.style("opacity", 1)
@@ -156,8 +156,9 @@ function mouseover() {
   focus2.style("opacity", 1)
 }
 
+// Writing MouseMove Function
 function mousemove() {
-  // recover coordinate we need
+  
   var x0 = x.invert(d3.mouse(this)[0]);
   var i = bisect(data, x0, 1);
   selectedData = data[i]
@@ -188,7 +189,7 @@ function mouseout() {
   focusText.style("opacity", 0)
 }
 
-
+// Added Annotations to display Maximum COVID19 confirmed cases in various countries
 svg.append("svg:defs").append("svg:marker")
     .attr("id", "triangle")
     .attr("refX", 6)

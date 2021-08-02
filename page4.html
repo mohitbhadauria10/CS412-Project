@@ -98,7 +98,7 @@ var y = d3.scaleLinear()
 svg.append("g")
   .call(d3.axisLeft(y));
 
-
+// Define tooltip
 
 var tooltip = d3.select("div")
     .append("rect")
@@ -109,8 +109,7 @@ var tooltip = d3.select("div")
     .style("border-radius", "10px")
     .style("padding", "10px")
     .style("font","36px")
-  // A function that change this tooltip when the user hover a point.
-  // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
+
 var mouseover = function(d) {
   tooltip
       .transition()
@@ -124,13 +123,14 @@ var mouseover = function(d) {
       .style("opacity", 1)
 
   }
+  // Writing MouseMove Function
 var mousemove = function(d) {
     tooltip
       .html(d.Code +"- Confirmed Cases: " + d[selectedVar])
       .style("left", (d3.mouse(this)[0]+200) + "px")
       .style("top", (d3.mouse(this)[1]-20) + "px")
   }
-  // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+  // Writing Mouseout Function
   var mouseout = function(d) {
     tooltip
       .transition()

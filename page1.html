@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> World COVID19 Confirmed Cases Map </title>
+    <title> Worldwide COVID-19 Confirmed Cases </title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -43,24 +43,23 @@
      </font>
     <a class="button1" href="page2.html" style="margin-left: 200px" >Next</a>
   </center>
-<!-- Create an element where the map will take place -->
 <svg id="worldMap" width="1200" height="520"></svg>
 
 <script>
 
-  // The svg
+  // Define SVG Element
   var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
   
-  // Map and projection
+  // Define World map with countries
   var path = d3.geoPath();
   var projection = d3.geoMercator()
     .scale(120)
     .center([0,20])
     .translate([width / 2, height / 2]);
   
-  // Data and color scale
+  // Define Color Scale to properly represent the shades of color
   var data = d3.map();
   var colorScale = d3.scaleThreshold()
     .domain([1000, 10000, 100000, 300000, 1000000, 5000000])
@@ -74,14 +73,14 @@
     .style("border-radius", "10px")
     .style("padding", "10px")
     .style("font","36px")
-  // Load external data and boot
+  // Read data from file and world map
   d3.queue()
     .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
     .defer(d3.csv, "data/world_covid19-1.csv", function(d) { data.set(d.code, +d.Confirmed); })
     .await(ready);
   
   function ready(error, topo) {
-  
+  // Writing Mouseover Function
     let mouseOver = function(d) {
       d3.selectAll(".Country")
         .transition()
@@ -103,7 +102,7 @@
         .duration(100)
         .style("opacity", 1)
     }
-  
+  // Writing Mouseleave Function
     let mouseLeave = function(d) {
       tooltip
         .transition()
@@ -119,7 +118,7 @@
         .style("stroke", "none")
     }
   
-    // Draw the map
+    // Drawing the Worldmap by using D3 library
     svg.append("g")
       .selectAll("path")
       .data(topo.features)
@@ -141,7 +140,7 @@
         .on("mouseleave", mouseLeave )
       }
 
-
+// Added Annotations to display Maximum COVID19 confirmed cases in various countries
 
       svg.append("svg:defs").append("svg:marker")
         .attr("id", "triangle")
