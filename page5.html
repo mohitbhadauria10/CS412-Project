@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> US Cumulative Confirmed and Death Cases Statewise </title>
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+    <title> US Cumulative Confirmed and Death Cases Statewise </title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body bgcolor="#ffffff">
@@ -74,7 +74,7 @@ var svg = d3.select("#div_id")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-
+// Define update function
 function update(selectedVar) {
 
 d3.csv("data/State_Death-1.csv", function(data) {
@@ -98,7 +98,7 @@ var y = d3.scaleLinear()
 svg.append("g")
   .call(d3.axisLeft(y));
 
-// Define tooltip
+// Define tooltip to show confirmed cases
 var tooltip = d3.select("div")
     .append("rect")
     .style("opacity", 0)
