@@ -34,7 +34,7 @@
       <a class="button1" href="page5.html" style="margin-left: 200px" >Next</a>
   </center>
 <center>
-<!-- Add 7 buttons -->
+<!-- Set all Pandemic Months starting from 2020 January to 2021 July  -->
 <button onclick="update('January')"> 2020-January </button>
 <button onclick="update('Feburary')"> Feburary </button>
 <button onclick="update('March')"> March </button>
@@ -54,8 +54,9 @@
 <button onclick="update('2021May')"> 2021-May </button>
 <button onclick="update('2021June')"> 2021-June </button>
 <button onclick="update('2021July')"> 2021-July </button>
-<!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+
+<!-- Defining the div to set for the graph. -->
+<div id="div_id"></div>
 </center>
 
 <script>
@@ -66,7 +67,7 @@ var margin = {top: 10, right: 100, bottom: 90, left: 100},
     height = 650 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
-var svg = d3.select("#my_dataviz")
+var svg = d3.select("#div_id")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -110,6 +111,7 @@ var tooltip = d3.select("div")
     .style("padding", "10px")
     .style("font","36px")
 
+// Writing MouseOver Function
 var mouseover = function(d) {
   tooltip
       .transition()
