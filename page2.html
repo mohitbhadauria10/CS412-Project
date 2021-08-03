@@ -1,203 +1,60 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title> World COVID19 Death Cases Map</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="chartStyle.css">
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-    <style>
-      body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
-      svg { width:100%; height: 100% }
-    </style>
 </head>
 
-<body bgcolor="#ffffff">
+<body bgcolor="white">
 
     <center>
-        <p>
-            <font size="6" face="Arial Black">
-                Worldwide COVID-19 Deaths
-            </font>
+        <p class="title">
+             Worldwide COVID-19 Deaths
         </p>
     </center>
 
-    <div class="chart-wrapper" id="chart-line1">
-        <p>
-            <font size="4" face="Arial">
+<! --- Code for Defining Top Header Description Field ---> 
+    <div class="graph-style" id="graph-id">
+        <div class="header">
                 This worldwide map shows COVID-19 cumulative death cases in every country from when the pandemic started (Jan2020 to July 2021).
                 Viewer can hover over any country and can find total deaths in that country.<br>
                 Red color spectrum(shade) from lighter shade of red to darker shade of red helps viewer to understand increasing death cases in respective countries in world map.
-            </font>
-        </p>
+        </div>
     </div>
+
+    <! --- Code for Defining Next, Previous and Mid Header Fields ---> 
     <center>
-      <a class="button1" href="page1.html" style="margin-right: 200px">Previous</a>
-      <font size="5" face="Arial Black">
-       <a class="scene2" href="page1.html">Worldwide Confirmed Cases</a>
-      |
-        <a class="scene3" href="page2.html">Worldwide Deaths</a>
-       </font>
-      <a class="button1" href="page3.html" style="margin-left: 200px" >Next</a>
+      <p></p>
+      <a class="previousnextbutton" href="page1.html" style="margin-right: 180px">Previous</a>
+      
+       <a class="page2" href="page1.html">Worldwide Confirmed Cases</a>  <b> | </b> <a class="page3" href="page2.html">Worldwide Deaths</a>
+       
+      <a class="previousnextbutton" href="page3.html" style="margin-left: 180px" >Next</a>
     </center>
-<svg id="worldMap" width="1200" height="520"></svg>
 
-<script>
+    <! --- Code for Defining SVG Canvas ---> 
+<svg id="worldMap" width="1200" height="500"></svg>
 
-  // Define SVG Element
-  var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
-  
-  // Define World map with countries
-  var path = d3.geoPath();
-  var projection = d3.geoMercator()
-    .scale(120)
-    .center([0,20])
-    .translate([width / 2, height / 2]);
-  
-  // Define Color Scale to properly represent the shades of color
-  var data = d3.map();
-  var colorScale = d3.scaleThreshold()
-    .domain([100, 1000, 10000, 30000, 100000, 500000])
-    .range(d3.schemeReds[7]);
-  var tooltip = d3.select("div")
-    .append("rect")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "#dd5143")
-    .style("color", "white")
-    .style("border-radius", "10px")
-    .style("padding", "10px")
-    .style("font","36px")
-  // Read data from file and world map
-  d3.queue()
-    .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-    .defer(d3.csv, "data/world_covid19-1.csv", function(d) { data.set(d.code, +d.Death); })
-    .await(ready);
-  
-  function ready(error, topo) {
-    // Writing Mouseover Function
-    let mouseOver = function(d) {
-      d3.selectAll(".Country")
-        .transition()
-        .duration(200)
-        .style("opacity", .5)
-      d3.select(this)
-        .transition()
-        .duration(200)
-        .style("opacity", 1)
-        .style("stroke", "black")
-      tooltip
-        .transition()
-        .duration(100)
-        .style("opacity", 1)  
-      tooltip
-        .html("Death Cases in - "+ d.id +" : " + d.total)
-        .style("left", (d3.mouse(this)[0]+200) + "px")
-        .style("top", (d3.mouse(this)[1]-20) + "px")
-        .duration(100)
-        .style("opacity", 1)
-    }
-  // Writing Mouseleave Function
-    let mouseLeave = function(d) {
-      tooltip
-        .transition()
-        .duration(100)
-        .style("opacity", 0)
-      d3.selectAll(".Country")
-        .transition()
-        .duration(200)
-        .style("opacity", .8)
-      d3.select(this)
-        .transition()
-        .duration(200)
-        .style("stroke", "none")
-    }
-  
-    // Drawing the Worldmap by using D3 library
-    svg.append("g")
-      .selectAll("path")
-      .data(topo.features)
-      .enter()
-      .append("path")
-        // draw each country
-        .attr("d", d3.geoPath()
-          .projection(projection)
-        )
-        // set the color of each country
-        .attr("fill", function (d) {
-          d.total = data.get(d.id) || 0;
-          return colorScale(d.total);
-        })
-        .style("stroke", "transparent")
-        .attr("class", function(d){ return "Country" } )
-        .style("opacity", .8)
-        .on("mouseover", mouseOver )
-        .on("mouseleave", mouseLeave )
-      }
+<! --- Code for Pagination ---> 
+<div class="pagination" style="height:5px; background-color: #fff;">
+        <div style="position:relative; float: right;">
+          <a href="javascript:void(0)" style="pointer-events:none;">«</a>
+          <a href="page1.html" onclick="next1();">1</a>
+          <a class="active" href="page2.html">2</a>
+          <a href="page3.html" onclick="next3();">3</a>
+          <a href="page4.html" onclick="next4();">4</a>
+          <a href="page5.html" onclick="next5();">5</a>
+          <a href="javascript:void(0)" onclick="next2();">»</a>
+        </div>
+</div>
 
 
-      // Added Annotations to display Maximum COVID19 death cases in various countries
-
-      svg.append("svg:defs").append("svg:marker")
-        .attr("id", "triangle")
-        .attr("refX", 6)
-        .attr("refY", 6)
-        .attr("markerWidth", 15)
-        .attr("markerHeight", 15)
-        .attr("orient", "auto")
-        .append("path")
-        .attr("d", "M 0 0 12 6 0 12 3 6")
-        .style("fill", "#8600b3");
-      
-      svg.append("line")
-        .attr("x1", 200)
-        .attr("y1", 210)
-        .attr("x2", 380)
-        .attr("y2", 210)          
-        .attr("stroke-width", 2)
-        .attr("stroke", "#8600b3")
-        .attr("marker-end", "url(#triangle)");
-      svg.append("text")
-        .attr("x", 30).attr("y", 205)
-        .text("Most Death Cases- (USA- 611,414)")
-        .style("font-size", "19px")
-        .attr("alignment-baseline","left")
-        .attr("fill", "#8600b3");
-
-        svg.append("line")
-        .attr("x1", 200)
-        .attr("y1", 350)
-        .attr("x2", 490)
-        .attr("y2", 350)          
-        .attr("stroke-width", 2)
-        .attr("stroke", "#8600b3")
-        .attr("marker-end", "url(#triangle)");
-      svg.append("text")
-        .attr("x", 30).attr("y", 340)
-        .text("Second Most Death Cases- (Brazil- 551,835)")
-        .style("font-size", "19px")
-        .attr("alignment-baseline","left")
-        .attr("fill", "#8600b3");
-      
-      svg.append("line")
-        .attr("x1", 1050)
-        .attr("y1", 250)
-        .attr("x2", 780)
-        .attr("y2", 250)          
-        .attr("stroke-width", 2)
-        .attr("stroke", "#8600b3")
-        .attr("marker-end", "url(#triangle)");
-      svg.append("text")
-        .attr("x", 900).attr("y", 245)
-        .text("Third Most Death Cases- (India- 421,382)")
-        .style("font-size", "19px")
-        .attr("alignment-baseline","left")
-        .attr("fill", "#8600b3");
-  
-  </script>
+<! --- Defining Java Script for Page2 ---> 
+<script src="page2.js" charset="utf-8"></script>
 
 </body>
 </html>

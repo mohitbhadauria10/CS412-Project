@@ -1,0 +1,85 @@
+.graph-style {
+    max-width: 950px;
+    min-width: 304px;
+    margin: 0 auto;
+    background-color: #ffffff;
+}
+
+.graph-style .inner-wrapper {
+    position: relative;
+    padding-bottom: 50%;
+    width: 100%;
+}
+
+.graph-style text {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.graph-style p {
+    font-size: 16px;
+    margin-top:5px;
+    margin-bottom: 40px;
+}
+
+.graph-style .axis path,
+.graph-style .axis line {
+    fill: none;
+    stroke: #1F1F2E;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+
+}
+.graph-style .axis path {
+  stroke-width: 2px;
+}
+
+.graph-style .line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 5px;
+}
+
+.graph-style .legend  {
+    min-width: 200px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    font-size: 16px;
+    padding: 10px 40px;
+}
+.graph-style .legend > div {
+    margin: 0px 25px 10px 0px;
+    flex-grow: 0;
+}
+.graph-style .legend p {
+    display:inline;
+    font-size: 0.8em;
+    font-family: sans-serif;
+    font-weight: 600;
+}
+.graph-style .overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.graph-style .focus circle {
+  fill: crimson;
+  stroke: crimson;
+  stroke-width: 2px;
+  fill-opacity: 15%;
+}
+.graph-style .focus rect {
+    fill: lightblue;
+    opacity: 0.4;
+    border-radius: 2px;
+}
+.graph-style .focus.line {
+    stroke: steelblue;
+    stroke-dasharray: 2,5;
+    stroke-width: 2;
+    opacity: 0.5;
+}
+.graph-style .header {
+  font-size: 1.2em;
+}

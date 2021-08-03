@@ -1,204 +1,67 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title> Worldwide COVID-19 Confirmed Cases </title>
-    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-    <style>
-      body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
-      svg { width:100%; height: 100% }
-    </style>
+    <meta charset="UTF-8">
+    <title> Worldwide COVID-19 Confirmed Cases </title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="chartStyle.css">
+    
+    
 </head>
 
-<body bgcolor="#ffffff">
 
+<body>
     <center>
-        <p>
-            <font size="6" face="Arial Black">
+        <p class="title">
                 Worldwide COVID-19 Confirmed Cases
-            </font>
         </p>
     </center>
 
-    <div class="chart-wrapper" id="chart-line1">
-        <p>
-            <font size="4" face="Arial">
+<! --- Code for Defining Top Header Description Field ---> 
+    <div class="graph-style" id="graph-id">
+        <div class="header">
+                
                 This worldwide map shows COVID-19 cumulative confirmed cases in every country from when the pandemic started (Jan2020 to July 2021).
                 Viewer can hover over any country and can find total confirmed cases in that country. <br>
                 Blue color spectrum(shade) from lighter shade of blue to darker shade of blue helps viewer to understand increasing confirmed cases in respective countries in world.
-
-                
-            </font>
-        </p>
+        </div>
     </div>
+
+<! --- Code for Defining Next, Previous and Mid Header Fields ---> 
   <center>
-    <a class="button1" href="page1.html" style="margin-right: 200px">Main</a>
-    <font size="5" face="Arial Black">
-     <a class="scene1" href="page1.html">Worldwide Confirmed Cases</a>
-    |
-      <a class="scene2" href="page2.html">Worldwide Deaths</a>
-     </font>
-    <a class="button1" href="page2.html" style="margin-left: 200px" >Next</a>
+    <p></p>
+    <a class="previousnextbutton" href="page1.html" style="margin-right: 180px">Home</a>
+      <a class="page1" href="page1.html">Worldwide Confirmed Cases</a> <b> | </b> <a class="page2" href="page2.html">Worldwide Deaths</a>
+    <a class="previousnextbutton" href="page2.html" style="margin-left: 180px" >Next</a>
   </center>
-<svg id="worldMap" width="1200" height="520"></svg>
 
-<script>
+<! --- Code for Defining SVG Canvas ---> 
+<svg id="worldMap" width="1200" height="500" font-size = "10"></svg>
 
-  // Define SVG Element
-  var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
-  
-  // Define World map with countries
-  var path = d3.geoPath();
-  var projection = d3.geoMercator()
-    .scale(120)
-    .center([0,20])
-    .translate([width / 2, height / 2]);
-  
-  // Define Color Scale to properly represent the shades of color
-  var data = d3.map();
-  var colorScale = d3.scaleThreshold()
-    .domain([1000, 10000, 100000, 300000, 1000000, 5000000])
-    .range(d3.schemeBlues[7]);
-  var tooltip = d3.select("div")
-    .append("rect")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "#00a0dc")
-    .style("color", "white")
-    .style("border-radius", "10px")
-    .style("padding", "10px")
-    .style("font","36px")
-  // Read data from file and world
-  d3.queue()
-    .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-    .defer(d3.csv, "data/world_covid19-1.csv", function(d) { data.set(d.code, +d.Confirmed); })
-    .await(ready);
-  
-  function ready(error, topo) {
-  // Writing Mouseover Function
-    let mouseOver = function(d) {
-      d3.selectAll(".Country")
-        .transition()
-        .duration(200)
-        .style("opacity", .5)
-      d3.select(this)
-        .transition()
-        .duration(200)
-        .style("opacity", 1)
-        .style("stroke", "Black")
-      tooltip
-        .transition()
-        .duration(100)
-        .style("opacity", 1)  
-      tooltip
-        .html("Confirmed Cases in - "+ d.id +" : " + d.total)
-        .style("left", (d3.mouse(this)[0]+200) + "px")
-        .style("top", (d3.mouse(this)[1]-20) + "px")
-        .duration(100)
-        .style("opacity", 1)
-    }
-  // Writing Mouseleave Function
-    let mouseLeave = function(d) {
-      tooltip
-        .transition()
-        .duration(100)
-        .style("opacity", 0)
-      d3.selectAll(".Country")
-        .transition()
-        .duration(200)
-        .style("opacity", .8)
-      d3.select(this)
-        .transition()
-        .duration(200)
-        .style("stroke", "none")
-    }
-  
-    // Drawing the Worldmap by using D3 library
-    svg.append("g")
-      .selectAll("path")
-      .data(topo.features)
-      .enter()
-      .append("path")
-        // draw each country
-        .attr("d", d3.geoPath()
-          .projection(projection)
-        )
-        // set the color of each country
-        .attr("fill", function (d) {
-          d.total = data.get(d.id) || 0;
-          return colorScale(d.total);
-        })
-        .style("stroke", "transparent")
-        .attr("class", function(d){ return "Country" } )
-        .style("opacity", .8)
-        .on("mouseover", mouseOver )
-        .on("mouseleave", mouseLeave )
-      }
+<! --- Code for Pagination---> 
 
-// Added Annotations to display Maximum COVID19 confirmed cases in various countries
+ <div class="pagination" style="height:5px; background-color: #fff;">
+        <div style="position:relative; float: right;">
+          <a href="javascript:void(0)" style="pointer-events:none;">«</a>
+          <a class="active" href="page1.html">1</a>
+          <a href="page2.html" onclick="next2();">2</a>
+          <a href="page3.html" onclick="next3();">3</a>
+          <a href="page4.html" onclick="next4();">4</a>
+          <a href="page5.html" onclick="next5();">5</a>
+          <a href="javascript:void(0)" onclick="next2();">»</a>
+        </div>
+</div>
 
-      svg.append("svg:defs").append("svg:marker")
-        .attr("id", "triangle")
-        .attr("refX", 6)
-        .attr("refY", 6)
-        .attr("markerWidth", 15)
-        .attr("markerHeight", 15)
-        .attr("orient", "auto")
-        .append("path")
-        .attr("d", "M 0 0 12 6 0 12 3 6")
-        .style("fill", "#8600b3");
-      
-      svg.append("line")
-        .attr("x1", 200)
-        .attr("y1", 210)
-        .attr("x2", 380)
-        .attr("y2", 210)          
-        .attr("stroke-width", 2)
-        .attr("stroke", "#8600b3")
-        .attr("marker-end", "url(#triangle)");
-      svg.append("text")
-        .attr("x", 15).attr("y", 205)
-        .text("Most Confirmed Cases- (USA- 34,603,919)")
-        .style("font-size", "19px")
-        .attr("alignment-baseline","left")
-        .attr("fill", "#8600b3");
-      
-      svg.append("line")
-        .attr("x1", 1050)
-        .attr("y1", 250)
-        .attr("x2", 780)
-        .attr("y2", 250)          
-        .attr("stroke-width", 2)
-        .attr("stroke", "#8600b3")
-        .attr("marker-end", "url(#triangle)");
-      svg.append("text")
-        .attr("x", 850).attr("y", 245)
-        .text("Second Most Confirmed Cases- (India- 31,440,951)")
-        .style("font-size", "19px")
-        .attr("alignment-baseline","left")
-        .attr("fill", "#8600b3");
 
-        svg.append("line")
-        .attr("x1", 200)
-        .attr("y1", 350)
-        .attr("x2", 490)
-        .attr("y2", 350)          
-        .attr("stroke-width", 2)
-        .attr("stroke", "#8600b3")
-        .attr("marker-end", "url(#triangle)");
-      svg.append("text")
-        .attr("x", 30).attr("y", 340)
-        .text("Third Most Confirmed Cases- (Brazil- 19,749,073)")
-        .style("font-size", "19px")
-        .attr("alignment-baseline","left")
-        .attr("fill", "#8600b3");
-  
-  </script>
+<! --- Defining Java Script for Page1 ---> 
+
+<script src="page1.js" charset="utf-8"></script>
+
+
+
+
 
 </body>
 </html>

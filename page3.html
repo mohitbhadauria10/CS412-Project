@@ -1,253 +1,58 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title> US Confirmed and Death Cases </title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="chartStyle.css">
     <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
     
 </head>
-<body bgcolor="#ffffff">
+<body bgcolor="white">
     <center>
-        <p>
-            <font size="6" face="Arial Black">
+        <p class="title">
                 Confirmed and Death Cases Trend in United States 
-            </font>
         </p>
     </center>
 
-    <div class="chart-wrapper" id="chart-line1">
-        <p>
-            <font size="4" face="Arial">
+<! --- Code for Defining Top Header Description Field ---> 
+    <div class="graph-style" id="graph-id">
+        <div class="header">
+            
                  This below chart shows the trend of COVID-19 confirmed cases and also death cases in United States from Jan 2020 to July 2021.
-                 Confirmed cases trend are shown in blue while number of death cases trend versus reporting date is shown in red color. <br> User can scroll over any trend (confirmed or death) and see cumulative number of confirmed or death cases in a selected date.</br>
+                 Confirmed cases trend are shown in blue while number of death cases trend versus reporting date is shown in red color. <br> User can scroll over any trend (confirmed or death) and see cumulative number of confirmed or death cases in a selected date.
                  This chart also specify the major dates when infections were peaked in terms of COVID first wave and second wave and also when infections started declining because of vaccine roll out.
-            </font>
-        </p>
+        </div>
     </div>
+
+    <! --- Code for Defining Next, Previous and Mid Header Fields ---> 
     <center>
       <p></p>
-      <a class="button1" href="page2.html" style="margin-right: 200px">Previous</a>
-      <font size="5" face="Arial Black">
-          Confirmed/Death Cases Numbers and Trend
-      </font>
-      <a class="button1" href="page4.html" style="margin-left: 200px" >Next</a>
+      <p></p>
+      <a class="previousnextbutton" href="page2.html" style="margin-right: 180px">Previous</a>
+      <span class="page3heading">Confirmed/Death Cases Numbers and Trend </span>
+      <a class="previousnextbutton" href="page4.html" style="margin-left: 180px" >Next</a>
   </center>
 
-<div id="my_dataviz"></div>
 
+<! --- Code for Defining SVG Canvas ---> 
+<div id="usa_trend"></div>
 
-<script>
+<! --- Code for Pagination ---> 
+<div class="pagination" style="height:5px; background-color: #fff;">
+        <div style="position:relative; float: right;">
+          <a href="javascript:void(0)" style="pointer-events:none;">«</a>
+          <a href="page1.html" onclick="next1();">1</a>
+          <a href="page2.html" onclick="next2();">2</a>
+          <a class="active" href="page3.html">3</a>
+          <a href="page4.html" onclick="next4();">4</a>
+          <a href="page5.html" onclick="next5();">5</a>
+          <a href="javascript:void(0)" onclick="next2();">»</a>
+        </div>
+</div>
 
-// Defining dimensions of SVG element to draw map
-var margin = {top: 10, right: 400, bottom: 90, left: 400},
-    width = 1600 - margin.left - margin.right,
-    height = 650 - margin.top - margin.bottom;
-
-// appending the SVG object
-var svg = d3.select("#my_dataviz")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-
-d3.csv("data/US_Confirmed_Death_cases-1.csv", function(d) {
-    return { date : d3.timeParse("%m/%d/%Y")(d.date), value : d.Confirmed, value2 : d.Death }
-},
-
-function(data) {
-
-svg.append("circle").attr("cx",50).attr("cy",50).attr("r", 6).style("fill", "#00a0dc")
-svg.append("circle").attr("cx",50).attr("cy",80).attr("r", 6).style("fill", "#dd5143")
-svg.append("text").attr("x", 70).attr("y", 50).text("Trend Confirmed Cases in US").style("font-size", "19px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 70).attr("y", 80).text("Trend Death Cases in US").style("font-size", "19px").attr("alignment-baseline","middle")
-
-// Adding X Axis as date format
-var x = d3.scaleTime()
-  .domain(d3.extent(data, function(d) { return d.date; }))
-  .range([ 0, width ]);
-svg.append("g")
-  .attr("transform", "translate(0," + height + ")")
-  .call(d3.axisBottom(x));
-
-// Adding Y axis as number of infections
-var y = d3.scaleLinear()
-  .domain([0, d3.max(data, function(d) { return +d.value; })])
-  .range([height,0]);
-svg.append("g")
-  .call(d3.axisLeft(y));
-
-// Function to find the closest X index of the mouse:
-var bisect = d3.bisector(function(d) { return d.date; }).left;
-// Create the circle that travels along the curve of chart
-var focus = svg
-  .append('g')
-  .append('circle')
-  .style("fill", "#00a0dc")
-  .attr('r', 9.0)
-  .style("opacity", 0)
-var focus2 = svg
-  .append('g')
-  .append('circle')
-  .style("fill", "#dd5143")
-  .attr('r', 9.0)
-  .style("opacity", 0)    
-
-var focusText = svg
-  .append('g')
-  .append('text')
-    .style("fill", "black")
-    .attr("text-anchor", "left")
-    .attr("alignment-baseline", "middle")
-var focusText2 = svg
-  .append('g')
-  .append('text')
-    .style("fill", "#00a0dc")
-    .attr("text-anchor", "left")
-    .attr("alignment-baseline", "middle")
-var focusText3 = svg
-  .append('g')
-  .append('text')
-    .style("fill", "#dd5143")
-    .attr("text-anchor", "left")
-    .attr("alignment-baseline", "middle")
-
-// Defining the line
-svg.append("path")
-  .datum(data)
-  .attr("id","line1")
-  .attr("fill", "none")
-  .attr("stroke", "#00a0dc")
-  .attr("stroke-width", 5.0)
-  .attr("d", d3.line()
-    .x(function(d) { return x(d.date) })
-    .y(function(d) { return y(d.value) })
-    )
-svg.append("path")
-  .datum(data)
-  .attr("id","line2")
-  .attr("fill", "none")
-  .attr("stroke", "#dd5143")
-  .attr("stroke-width", 5.0)
-  .attr("d", d3.line()
-    .x(function(d) { return x(d.date) })
-    .y(function(d) { return y(d.value2) })
-    )
-
-// Defiing a Rectangle Element
-svg
-  .append('rect')
-  .style("fill", "none")
-  .style("pointer-events", "all")
-  .attr('width', width)
-  .attr('height', height)
-  .on('mouseover', mouseover)
-  .on('mousemove', mousemove)
-  .on('mouseout', mouseout);
-
-// Defiing a Mouseover Element
-function mouseover() {
-  focusText.style("opacity",1)
-  focus.style("opacity", 1)
-  focusText2.style("opacity",1)
-  focusText3.style("opacity",1)
-  focus2.style("opacity", 1)
-}
-
-// Writing MouseMove Function
-function mousemove() {
-  
-  var x0 = x.invert(d3.mouse(this)[0]);
-  var i = bisect(data, x0, 1);
-  selectedData = data[i]
-  focus
-    .attr("cx", x(selectedData.date))
-    .attr("cy", y(selectedData.value))
-  focus2
-    .attr("cx", x(selectedData.date))
-    .attr("cy", y(selectedData.value2))
-focusText
-    .html("Reporting Date: "+selectedData.date)
-    .attr("x", x(selectedData.date))
-    .attr("y", y(selectedData.value)-60)
-
-focusText2
-    .html("Total Confirmed Cases: " + selectedData.value)
-    .attr("x", x(selectedData.date))
-    .attr("y", y(selectedData.value)-40)
-
-focusText3
-    .html("Total Death Cases: " + selectedData.value2)
-    .attr("x", x(selectedData.date))
-    .attr("y", y(selectedData.value)-20)
-}
-
-function mouseout() {
-  focus.style("opacity", 0)
-  focusText.style("opacity", 0)
-}
-
-// Added Annotations to display Maximum COVID19 confirmed cases in various countries
-svg.append("svg:defs").append("svg:marker")
-    .attr("id", "triangle")
-    .attr("refX", 6)
-    .attr("refY", 6)
-    .attr("markerWidth", 30)
-    .attr("markerHeight", 30)
-    .attr("orient", "auto")
-    .append("path")
-    .attr("d", "M 0 0 12 6 0 12 3 6")
-    .style("fill", "#8600b3");
-svg.append("line")
-  .attr("x1", 350)
-  .attr("y1", 215)
-  .attr("x2", 410)
-  .attr("y2", 390)          
-  .attr("stroke-width", 2)
-  .attr("stroke", "#8600b3")
-  .attr("marker-end", "url(#triangle)");
-svg.append("text")
-    .attr("x", 20).attr("y", 210)
-    .text("Covid Second Wave (November 2020) Cases Significantly increased")
-    .style("font-size", "19px")
-    .attr("alignment-baseline","left")
-    .attr("fill", "#8600b3");
-    
-svg.append("line")
-  .attr("x1", 200)
-  .attr("y1", 295)
-  .attr("x2", 220)
-  .attr("y2", 500)          
-  .attr("stroke-width", 2)
-  .attr("stroke", "#8600b3")
-  .attr("marker-end", "url(#triangle)");
-svg.append("text")
-    .attr("x", 20).attr("y", 290)
-    .text("Covid First Wave (June 2020) Cases Significantly increased")
-    .style("font-size", "19px")
-    .attr("alignment-baseline","left")
-    .attr("fill", "#8600b3");
-    
-svg.append("line")
-  .attr("x1", 500)
-  .attr("y1", 50)
-  .attr("x2", 550)
-  .attr("y2", 105)          
-  .attr("stroke-width", 2)
-  .attr("stroke", "#8600b3")
-  .attr("marker-end", "url(#triangle)");
-svg.append("text")
-    .attr("x", 400).attr("y", 45)
-    .text("Vaccination Kicked in (February 2021) Cases Decreased")
-    .style("font-size", "19px")
-    .attr("alignment-baseline","left")
-    .attr("fill", "#00b33c");
-})
-
-</script>
+<! --- Defining Java Script for Page3 ---> 
+<script src="page3.js" charset="utf-8"></script>
 
 
 

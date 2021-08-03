@@ -1,66 +1,28 @@
 
 <!DOCTYPE html>
-<style>
-body {
-  background-image: url('covidImage1.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;  
-  background-size: cover;
-}
-a:hover, a:active {
-  background-color: red;
-}
-a:link, a:visited {
-  background-color: #ff4d4d;
-  color: black;
-  padding: 10px 30px;
-  text-align: center;
-  text-decoration: none;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  display: inline-block;
-}
-
-.left {
-    position: absolute;
-    top: 50%;
-    left: 30%;
-    -moz-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-}
-
-</style>
 <html lang="en">
-<body bgcolor="#000000">
-    <div class="left">
-        <left>
-            <p>
-                <font size="7" face="Helvetica" color="White">
-                  Worldwide COVID-19 Confirmed <br>cases/deaths Analysis
-                </font>
-            </p>
-            <p>
-                <font size="3" face="Helvetica"color="White">
-                Project Description: This interactive narrative visualization provides a detailed <br>overview of COVID-19 infections in various countries including United States.<br> It also provide a detailed analysis how infection spread across in US by <br> showing a timeline.
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="chartStyle.css">
+</head>
 
-                </font>
+<body>
+    <div class="firstPage">
+        <left>
+            <p class="title">
+                Worldwide COVID-19 <span class="firstPageBlueColor">Confirmed</span>/ <br><span class="firstPageRedColor">Death</span> cases Analysis
             </p>
-            <p>
-                <font size="4" face="Helvetica"color="White">
-                Presented By: Mohit Singh
-                </font>
+            <p class="header">
+                <b>Project Description:</b> This interactive narrative visualization provides a detailed <br>overview of COVID-19 infections in various countries including United States.<br> It also provide a detailed analysis how infection spread across in US by <br> showing a timeline.
             </p>
-            <p>
-                <font size="4" face="Arial White"color="White">
-                    Email: mohits3@illinois.edu
-                </font>
-            </p> 
-            <a href="page1.html">Let's Start</a>
+            <p class="header">
+                <b>Presented By:</b> Mohit Singh <br>
+                <b>Email:</b> mohits3@illinois.edu
+            </p>
+            <a class="previousnextbutton" href="page1.html">Let's Start</a>
         </left>  
       </div>
-
-
 </body>
 
 </html>

@@ -1,169 +1,78 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title> US Confirmed and Death Cases </title>
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="chartStyle.css">
 </head>
-<body bgcolor="#ffffff">
+<body bgcolor="white">
     <center>
-        <p>
-            <font size="6" face="Arial Black">
-                Statewise cumulative monthly COVID-19 Confirmed Cases
-            </font>
+        <p class="title">
+             Statewise cumulative monthly COVID-19 Confirmed Cases
         </p>
     </center>
 
-    <div class="chart-wrapper" id="chart-line1">
-        <p>
-            <font size="4" face="Arial">
-                 This chart shows cumulative COVID-19 confirmed cases in every state in United States from when pandemic started until now (Jan 2020-July 2021).<br> User can click in any month from January 2020 to July 2021 and can view COVID-19 cases in any state and its comparision with other states.User can hover over the bar chart of any state and can see exact confirmed cases in that state. States with maximum and minimum number of confirmed cases can be easily identified by bar chart.
+    <! --- Code for Defining Top Header Description Field ---> 
 
-            </font>
-        </p>
+    <div class="graph-style" id="graph-id">
+        <div class="header">
+                 This chart shows cumulative COVID-19 confirmed cases in every state in United States from when pandemic started until now (Jan 2020-July 2021).<br> User can click in any month from January 2020 to July 2021 and can view COVID-19 cases in any state and its comparision with other states.User can hover over the bar chart of any state and can see exact confirmed cases in that state. States with maximum and minimum number of confirmed cases can be easily identified by bar chart.
+        </div>
     </div>
+
+    <! --- Code for Defining Next, Previous and Mid Header Fields ---> 
     <center>
       <p></p>
-      <a class="button1" href="page3.html" style="margin-right: 200px">Previous</a>
-      <font size="5" face="Arial Black">
-          <a class="scene1" href="page4.html">Statewise Confirmed Cases</a>
-          |
-          <a class="scene2" href="page5.html">Statewise Deaths</a>
-      </font>
-      <a class="button1" href="page5.html" style="margin-left: 200px" >Next</a>
+      <a class="previousnextbutton" href="page3.html" style="margin-right: 180px">Previous</a>
+          <a class="page1" href="page4.html">Statewise Confirmed Cases</a>  <b> | </b><a class="page2" href="page5.html">Statewise Deaths</a>
+      <a class="previousnextbutton" href="page5.html" style="margin-left: 180px" >Next</a>
   </center>
 <center>
+
+
 <!-- Set all Pandemic Months starting from 2020 January to 2021 July  -->
-<button onclick="update('January')"> 2020-January </button>
-<button onclick="update('Feburary')"> Feburary </button>
-<button onclick="update('March')"> March </button>
-<button onclick="update('April')"> April </button>
-<button onclick="update('May')"> May </button>
-<button onclick="update('June')"> June </button>
-<button onclick="update('July')"> July </button>
-<button onclick="update('August')"> August </button>
-<button onclick="update('September')"> September </button>
-<button onclick="update('October')"> October </button>
-<button onclick="update('November')"> November </button>
-<button onclick="update('December')"> December </button>
-<button onclick="update('2021January')"> 2021-January </button>
-<button onclick="update('2021February')"> 2021-February </button>
-<button onclick="update('2021March')"> 2021-March </button>
-<button onclick="update('2021April')"> 2021-April </button>
-<button onclick="update('2021May')"> 2021-May </button>
-<button onclick="update('2021June')"> 2021-June </button>
-<button onclick="update('2021July')"> 2021-July </button>
+<button class="page4button" onclick="update('January')"> 2020-January </button>
+<button class="page4button" onclick="update('Feburary')"> Feburary </button>
+<button class="page4button" onclick="update('March')"> March </button>
+<button class="page4button" onclick="update('April')"> April </button>
+<button class="page4button" onclick="update('May')"> May </button>
+<button class="page4button" onclick="update('June')"> June </button>
+<button class="page4button" onclick="update('July')"> July </button>
+<button class="page4button" onclick="update('August')"> August </button>
+<button class="page4button" onclick="update('September')"> September </button>
+<button class="page4button" onclick="update('October')"> October </button>
+<button class="page4button" onclick="update('November')"> November </button>
+<button class="page4button" onclick="update('December')"> December </button>
+<button class="page4button" onclick="update('2021January')"> 2021-January </button>
+<button class="page4button" onclick="update('2021February')"> 2021-February </button>
+<button class="page4button" onclick="update('2021March')"> 2021-March </button>
+<button class="page4button" onclick="update('2021April')"> 2021-April </button>
+<button class="page4button" onclick="update('2021May')"> 2021-May </button>
+<button class="page4button" onclick="update('2021June')"> 2021-June </button>
+<button class="page4button" onclick="update('2021July')"> 2021-July </button>
 
 <!-- Defining the div to set for the graph. -->
-<div id="div_id"></div>
+<div id="stateBarGraph"></div>
+
+
 </center>
 
-<script>
+<! --- Code for Pagination ---> 
+<div class="pagination" style="height:5px; background-color: #fff;">
+        <div style="position:relative; float: right;">
+          <a href="javascript:void(0)" style="pointer-events:none;">«</a>
+          <a href="page1.html" onclick="next1();">1</a>
+          <a href="page2.html" onclick="next2();">2</a>
+          <a href="page3.html" onclick="next3();">3</a>
+          <a class="active" href="page4.html">4</a>
+          <a href="page5.html" onclick="next5();">5</a>
+          <a href="javascript:void(0)" onclick="next2();">»</a>
+        </div>
+</div>
 
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 100, bottom: 90, left: 100},
-    width = 1800 - margin.left - margin.right,
-    height = 650 - margin.top - margin.bottom;
-
-// appending the SVG object
-var svg = d3.select("#div_id")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-
-// Define update function
-function update(selectedVar) {
-// Read data from file
-d3.csv("data/State_Confirmed-1.csv", function(data) {
-
-svg.append("rect").attr("width",20).attr("height",20).attr("x", 40).attr("y", -10).style("fill", "#00a0dc")
-svg.append("text").attr("x", 70).attr("y", 0).text("Confirmed Cases Statewise").style("font-size", "17px").attr("alignment-baseline","middle")
-
-// Adding X axis as States of USA
-var x = d3.scaleBand()
-  .range([ 0, width ])
-  .domain(data.map(function(d) { return d.Code; }))
-  .padding(0.2);
-svg.append("g")
-  .attr("transform", "translate(0," + height + ")")
-  .call(d3.axisBottom(x))
-
-//Adding Y axis as No of COVID Infections
-var y = d3.scaleLinear()
-  .domain([0, 4000000])
-  .range([ height, 0]);
-svg.append("g")
-  .call(d3.axisLeft(y));
-
-// Define tooltip to show confirmed cases
-
-var tooltip = d3.select("div")
-    .append("rect")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "#00a0dc")
-    .style("color", "white")
-    .style("border-radius", "10px")
-    .style("padding", "10px")
-    .style("font","36px")
-
-// Writing MouseOver Function
-var mouseover = function(d) {
-  tooltip
-      .transition()
-      .duration(100)
-      .style("opacity", 1)  
-  tooltip
-    .html(d.Code +"- Confirmed Cases: " + d[selectedVar])
-      .style("left", (d3.mouse(this)[0]+200) + "px")
-      .style("top", (d3.mouse(this)[1]-20) + "px")
-      .duration(100)
-      .style("opacity", 1)
-
-  }
-  // Writing MouseMove Function
-var mousemove = function(d) {
-    tooltip
-      .html(d.Code +"- Confirmed Cases: " + d[selectedVar])
-      .style("left", (d3.mouse(this)[0]+200) + "px")
-      .style("top", (d3.mouse(this)[1]-20) + "px")
-  }
-  // Writing Mouseout Function
-  var mouseout = function(d) {
-    tooltip
-      .transition()
-      .duration(100)
-      .style("opacity", 0)
-  }
-
-
-var u = svg.selectAll("rect")
-      .data(data)
-u
-  .enter()
-  .append("rect")
-  .merge(u)
-    .attr("x", function(d) { return x(d.Code); })
-    .attr("y", function(d) { return y(d[selectedVar]); })
-    .attr("width", x.bandwidth())
-    .attr("height", function(d) { return height - y(d[selectedVar]); })
-    .attr("fill", "#00a0dc")
-    .on('mouseover', mouseover)
-  .on('mousemove', mousemove)
-  .on('mouseout', mouseout);
-
-
-})
-}
-update('July')
-
-</script>
-
-
+<! --- Defining Java Script for Page4 ---> 
+<script src="page4.js" charset="utf-8"></script>
 
 </body>
 </html>
